@@ -1,6 +1,7 @@
 "ignore"; from base import *
 "ignore"; from player import *
 
+# Represents an ongoing game.
 class Game(object):
   players: [Player]
   mapboxes: [AABBHitbox]

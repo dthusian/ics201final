@@ -2,6 +2,7 @@
 
 ## Section: Hitboxes
 
+# Represents a circular hitbox.
 class CircleHitbox(object):
   center: Vec2
   radius: float
@@ -20,6 +21,8 @@ class CircleHitbox(object):
   def as_AABB(self):
     return AABBHitbox(self.center, Vec2(self.radius, self.radius) * 2)
 
+# Represents an Axis-Aligned Bounding Box,
+# which is just a fancy term for "rectangular hitbox"
 class AABBHitbox(object):
   center: Vec2
   size: Vec2
@@ -37,6 +40,9 @@ class AABBHitbox(object):
 
 ## Section: Collision Detection
 
+# Checks if 2 circle hitboxes are touching.
+# Users should not call this method. They should call touching()
+# instead.
 def touching_circle(self, box):
   typeassert(box, CircleHitbox)
   typeassert(self, CircleHitbox)
@@ -44,6 +50,9 @@ def touching_circle(self, box):
   distsq = diff * diff
   return (distsq.x + distsq.y) < ((self.radius + box.radius) / 2) ** 2
 
+# Checks if 2 circle AABBs are touching.
+# Users should not call this method. They should call touching()
+# instead.
 def touching_aabb(self, box):
   typeassert(box, AABBHitbox)
   typeassert(self, AABBHitbox)
@@ -51,6 +60,9 @@ def touching_aabb(self, box):
   total_size = self.size + box.size
   return abs(diff.x) < total_size.x and abs(diff.y) < total_size.y
 
+# Generates the 6 hitboxes required to check if
+# an AABB and circle are touching.
+# See this: https://gamedev.stackexchange.com/a/120897
 def generate_mixed_touching_checks(circle, aabb):
   typeassert(circle, CircleHitbox)
   typeassert(aabb, AABBHitbox)
@@ -68,6 +80,9 @@ def generate_mixed_touching_checks(circle, aabb):
     boxes.append(circle2)
   return boxes
 
+# Checks if a circle and an AABB are touching.
+# Users should not call this method. They should call touching()
+# instead.
 def touching_mixed(circle, aabb):
   typeassert(circle, CircleHitbox)
   typeassert(aabb, AABBHitbox)
@@ -81,6 +96,10 @@ def touching_mixed(circle, aabb):
     return False
   return True
 
+# Checks if two hitboxes are touching.
+# This function should be called by users.
+# It automagically routes combinations of circle and 
+# AABB arguments to the appropriate functions.
 def touching(a, b):
   typeassertmany(a, [CircleHitbox, AABBHitbox])
   typeassertmany(b, [CircleHitbox, AABBHitbox])

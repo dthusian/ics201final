@@ -1,12 +1,15 @@
 # build.py: Project buildscript
 # Concatenates all the files and submit them as one.
 
+import sys
+
 concatOrder = [
   "base.py",
   "hitbox.py",
   "player.py",
   "game.py",
   "gameview.py",
+  "physics.py",
   "main.py"
 ]
 
@@ -18,6 +21,9 @@ def getlineattr(line):
   else:
     return []
 
+def isnonfunctional(line):
+  return len(line.strip()) == 0 or line.strip()[0] == "#"
+
 with open("dist.py", "w") as outf:
   for path in concatOrder:
     srcpath = "src/" + path
@@ -27,5 +33,9 @@ with open("dist.py", "w") as outf:
       for line in fp:
         attr = getlineattr(line)
         if "ignore" not in attr:
-          outf.write(line)
+          if sys.argv[1] == "optimize":
+            if not isnonfunctional(line):
+              outf.write(line)
+          else:
+            outf.write(line)
     outf.write("\n")

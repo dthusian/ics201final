@@ -8,6 +8,7 @@ def millis():
 
 "debug"; mstart = millis()
 
+# The main function. This will be invoked.
 def main():
   init_display()
   gv = GameView(Game())

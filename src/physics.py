@@ -2,33 +2,38 @@ import math
 
 "ignore"; from game import *
 
+# The physics engine. It processes physics objects (like players) moving
 class PhysicsEngine(object):
   game: Game
   def __init__(self, game):
     typeassert(game, Game)
     self.game = game
 
-  # Takes a player at original position
+  # Moves a player along it's velocity, checking for obstructions.
+  # This function uses a binary search, so it's not the most efficent,
+  # but it's definitely the simplest.
   def collide(self, player, box):
     typeassert(player, Player)
     typeassert(box, AABBHitbox)
-    tmp0 = player.vel * player.vel
-    totalv = math.sqrt(tmp0.x + tmp0.y)
+    # Classical binary search variables
     minbound = 0.0
     maxbound = 1.0
-    epsilon = 0.001
+    epsilon = 0.001 # Tolerance
     while abs(minbound - maxbound) > epsilon:
+      # Check the midpoint for collision
       mid = (minbound + maxbound) / 2
       newplayer = CircleHitbox(player.body.center + player.vel * Vec2(mid, mid), player.body.radius)
+      # Move bounds accordingly
       if touching(newplayer, box):
         maxbound = mid
       else:
         minbound = mid
+    # Now that we know where the player can go, move them there
     realv = minbound
     realvel = Vec2(realv, realv) * player.vel
     player.body.center += realvel
     player.vel = Vec2(0, 0)
-  
+    
   def tick(self):
     for pl in self.game.players:
       pl.vel += Vec2(0, 0.02)
