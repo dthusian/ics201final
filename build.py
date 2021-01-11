@@ -4,12 +4,18 @@
 import sys
 
 concatOrder = [
+  # POD Classes:
   "base.py",
   "hitbox.py",
-  "player.py",
+  "frames.py",
   "game.py",
+
+  # Engines:
   "gameview.py",
-  "physics.py",
+  "frameengine.py",
+  "physicsengine.py",
+
+  # Main:
   "main.py"
 ]
 
@@ -33,7 +39,7 @@ with open("dist.py", "w") as outf:
       for line in fp:
         attr = getlineattr(line)
         if "ignore" not in attr:
-          if sys.argv[1] == "optimize":
+          if len(sys.argv) > 1 and sys.argv[1] == "optimize":
             if not isnonfunctional(line):
               outf.write(line)
           else:
