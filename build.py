@@ -14,6 +14,7 @@ concatOrder = [
   "gameview.py",
   "frameengine.py",
   "physicsengine.py",
+  "gameengine.py",
 
   # Main:
   "main.py"

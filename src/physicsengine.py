@@ -10,7 +10,7 @@ class PhysicsEngine(object):
     self.game = game
 
   # Moves a player along it's velocity, checking for obstructions.
-  # This function uses a binary search, so it's not the most efficent,
+  # This function uses a binary search, so it's not the most efficient,
   # but it's definitely the simplest.
   def collide(self, player, box):
     typeassert(player, Player)
@@ -33,16 +33,23 @@ class PhysicsEngine(object):
     realvel = Vec2(realv, realv) * player.vel
     player.body.center += realvel
     player.vel = Vec2(0, 0)
+
+  def safemove(self, pl, vec):
+    circle = CircleHitbox(pl.body.center, pl.body.radius)
+    circle.center += vec
+    for box in self.game.mapboxes:
+      if touching(circle, box):
+        self.collide(pl, box)
+        return True
+    else:
+      pl.body.center += vec
+      return False
     
   def tick(self):
     for pl in self.game.players:
       pl.vel += Vec2(0, 0.02)
     for pl in self.game.players:
-      circle = CircleHitbox(pl.body.center, pl.body.radius)
-      circle.center += pl.vel
-      for box in self.game.mapboxes:
-        if touching(circle, box):
-          self.collide(pl, box)
-          break
-      else:
-        pl.body.center += pl.vel
+      prioryvel = pl.vel.y
+      collided = self.safemove(pl, pl.vel)
+      if collided and prioryvel < 0:
+        pl.jumps = 2

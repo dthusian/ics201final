@@ -1,6 +1,7 @@
 "ignore"; from base import *
 
 from typing import Callable, TYPE_CHECKING
+"ignore"; from hitbox import *
 
 if TYPE_CHECKING:
   "ignore"; from game import *
@@ -9,12 +10,15 @@ if TYPE_CHECKING:
 class Frame(object):
   gravity: float
   armor: float
+  attack: float
   accel: float
+  stun: bool
   hook: Callable[[Player, int], None]
 
 class FrameSequence(object):
   cancelvel: bool
-  frames: [Frame]
+  attackbox: CircleHitbox
+  frames: list[Frame]
 
   def __init__(self, length):
     typeassert(length, int)
@@ -25,7 +29,7 @@ class FrameSequence(object):
     typeassertmany(rang, [list, range])
     typeassert(rang[0], int)
     typeassert(key, str)
-    typeassertmany(val, [float])
+    typeassertmany(val, [float, bool])
     for i in rang:
       setattr(self.frames[i], key, val)
 
