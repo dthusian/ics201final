@@ -8,6 +8,7 @@ class Player(object):
   active_seq: FrameSequence
   seq_index: int
   vel: Vec2
+  movevec: Vec2
   damage: int
   jumps: int
 
@@ -19,6 +20,7 @@ class Player(object):
     self.active_seq = None
     self.seq_index = 0
     self.jumps = 2
+    self.movevec = Vec2(0, 0)
 
 # Represents an ongoing game.
 class Game(object):

@@ -21,11 +21,12 @@ class GameEngine(object):
 
   def tick(self):
     pressed = pygame.key.get_pressed()
-    if pressed[pygame.K_w] and self.game.players[0].jumps:
-      self.game.players[0].jumps -= 1
-      self.game.players[0].vel += Vec2(0, -0.5)
-    if pressed[pygame.K_a]:
-      self.game.players[0]
+    controls = {
+      "player1.jump": pressed[pygame.K_w],
+      "player1.left": pressed[pygame.K_a],
+      "player1.right": pressed[pygame.K_d]
+    }
+    self.physics.process_keys(controls)
 
     self.physics.tick()
     self.frames.tick()

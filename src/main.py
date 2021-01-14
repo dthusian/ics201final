@@ -8,6 +8,7 @@ def main():
   pl.body.center = Vec2(500, 0)
   eng.game.players.append(pl)
   while True:
+    eng.view.pollevent()
     eng.tick()
     eng.draw()
 

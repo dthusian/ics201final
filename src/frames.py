@@ -1,11 +1,7 @@
 "ignore"; from base import *
 
-from typing import Callable, TYPE_CHECKING
+from typing import Callable
 "ignore"; from hitbox import *
-
-if TYPE_CHECKING:
-  "ignore"; from game import *
-  pass
 
 class Frame(object):
   gravity: float
@@ -13,7 +9,7 @@ class Frame(object):
   attack: float
   accel: float
   stun: bool
-  hook: Callable[[Player, int], None]
+  hook: Callable[[object, int], None]
 
 class FrameSequence(object):
   cancelvel: bool

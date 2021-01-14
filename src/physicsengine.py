@@ -34,6 +34,7 @@ class PhysicsEngine(object):
     player.body.center += realvel
     player.vel = Vec2(0, 0)
 
+  # Move a player with collision checks.
   def safemove(self, pl, vec):
     circle = CircleHitbox(pl.body.center, pl.body.radius)
     circle.center += vec
@@ -44,12 +45,26 @@ class PhysicsEngine(object):
     else:
       pl.body.center += vec
       return False
+
+  def process_keys(self, keys):
+    typeassert(keys, dict)
+    self.game.players[0].movevec = Vec2(0, 0)
+    if keys["player1.jump"] and self.game.players[0].jumps:
+      self.game.players[0].jumps -= 1
+      self.game.players[0].vel += Vec2(0, -1)
+    if keys["player1.left"]:
+      self.game.players[0].movevec = Vec2(-2, 0)
+    if keys["player1.right"]:
+      self.game.players[0].movevec = Vec2(2, 0)
     
   def tick(self):
     for pl in self.game.players:
       pl.vel += Vec2(0, 0.02)
     for pl in self.game.players:
       prioryvel = pl.vel.y
+      collided = self.safemove(pl, pl.movevec)
+      if collided and prioryvel > 0:
+        pl.jumps = 2
       collided = self.safemove(pl, pl.vel)
-      if collided and prioryvel < 0:
+      if collided and prioryvel > 0:
         pl.jumps = 2
