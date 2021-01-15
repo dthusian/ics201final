@@ -7,10 +7,7 @@ def main():
   pl = Player()
   pl.body.center = Vec2(500, 0)
   eng.game.players.append(pl)
-  while True:
-    eng.view.pollevent()
-    eng.tick()
-    eng.draw()
+  eng.mainloop()
 
 if __name__ == "__main__":
   main()

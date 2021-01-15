@@ -2,7 +2,7 @@ import time
 
 ## Section: Type handling library
 # Functions that enforce type-safety.
-# (As you can tell, I am a fan of statically-typed langauges)
+# (As you can tell, I am a fan of statically-typed languages)
 
 # Checks an object's type, and throws if it doesn't match
 def typeassert(obj, typ):

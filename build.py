@@ -15,6 +15,7 @@ concatOrder = [
   "frameengine.py",
   "physicsengine.py",
   "gameengine.py",
+  "uiengine.py"
 
   # Main:
   "main.py"
