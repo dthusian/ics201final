@@ -2,6 +2,7 @@
 "ignore"; from frameengine import *
 "ignore"; from gameview import *
 import pygame
+import time
 
 controls_map = {}
 controls_map[pygame.K_w] = "player1.jump"
@@ -44,6 +45,7 @@ class GameEngine(object):
       mapped = controls_map.get(ev.key)
       if mapped:
         self.physics.press_key(mapped)
+        self.frames.press_key(mapped)
 
   def draw(self):
     self.view.draw()
@@ -57,3 +59,7 @@ class GameEngine(object):
     self.physics.process_keys(controls)
     self.physics.tick()
     self.frames.tick()
+
+  @staticmethod
+  def framerate_thread():
+    pass

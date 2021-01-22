@@ -49,10 +49,15 @@ class PhysicsEngine(object):
   def process_keys(self, keys):
     typeassert(keys, dict)
     self.game.players[0].movevec = Vec2(0, 0)
+    self.game.players[1].movevec = Vec2(0, 0)
     if keys["player1.left"]:
       self.game.players[0].movevec = Vec2(-1.5, 0)
     if keys["player1.right"]:
       self.game.players[0].movevec = Vec2(1.5, 0)
+    if keys["player2.left"]:
+      self.game.players[1].movevec = Vec2(-1.5, 0)
+    if keys["player2.right"]:
+      self.game.players[1].movevec = Vec2(1.5, 0)
 
   def release_key(self, key):
     pass
@@ -61,6 +66,9 @@ class PhysicsEngine(object):
     if key == "player1.jump" and self.game.players[0].jumps:
       self.game.players[0].jumps -= 1
       self.game.players[0].vel += Vec2(0, -3)
+    if key == "player2.jump" and self.game.players[1].jumps:
+      self.game.players[1].jumps -= 1
+      self.game.players[1].vel += Vec2(0, -3)
     
   def tick(self):
     for pl in self.game.players:

@@ -70,10 +70,12 @@ class GameView(object):
           self.translate_px(box.size).as_tuple()
         )
       )
+    colors = [(255, 0, 0), (0, 255, 0)]
     for pl in self.game.players:
-      pygame.draw.circle(self.render_target, (255, 0, 0),
+      pygame.draw.circle(self.render_target, colors[len(colors) - 1],
         self.translate_px(pl.body.center).as_tuple(),
       self.translate_px(pl.body.radius))
+      colors.pop()
     pygame.display.flip()
   
   # Gets a pygame event and returns it.
