@@ -1,10 +1,9 @@
-import math
-
 "ignore"; from game import *
 
 # The physics engine. It processes physics objects (like players) moving
 class PhysicsEngine(object):
   game: Game
+
   def __init__(self, game):
     typeassert(game, Game)
     self.game = game

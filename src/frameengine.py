@@ -1,8 +1,10 @@
 "ignore"; from game import *
 "ignore"; from framedef import *
+from typing import Dict
 
 class FrameEngine(object):
   game: Game
+  keys: Dict[str, bool]
   _debug_frameindex: int
 
   def __init__(self, game):
@@ -16,6 +18,9 @@ class FrameEngine(object):
       pl.active_seq = playerUpB # Do something here
       pl.seq_index = 0
 
+  def process_keys(self, keys):
+    self.keys = keys
+
   def press_key(self, key):
     if key == "player1.atk":
       self.try_atk(0)
@@ -27,6 +32,7 @@ class FrameEngine(object):
     # Make a list of player collisions
     attacks = []
     for pl in self.game.players:
+      if pl.stun_frames > 0: pl.stun_frames -= 1
       # If current frame is attacking...
       if pl.active_seq:
         pl.vel = pl.active_seq.frames[pl.seq_index].vel_self
@@ -34,7 +40,7 @@ class FrameEngine(object):
           print("FrameEngine.tick i={} pl={} seq={}".format(self._debug_frameindex, self.game.players.index(pl), pl.seq_index))
           # Check which players are touching
           for pl2 in self.game.players:
-            if pl2 != pl:
+            if pl2 != pl and pl2.stun_frames == 0:
               attack_box = CircleHitbox(pl.body.center + pl.active_seq.attackbox.center, pl.active_seq.attackbox.radius)
               if touching(attack_box, pl2.body):
                 attacks.append((pl2, pl))
@@ -46,6 +52,7 @@ class FrameEngine(object):
       target.vel += cframe.vel_other
       target.seq_index = 0
       target.active_seq = None
+      target.stun_frames = attack.active_seq.stun_frames
     for pl in self.game.players:
       if pl.active_seq:
         pl.seq_index += 1

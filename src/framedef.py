@@ -2,6 +2,7 @@
 
 playerUpB = FrameSequence(50)
 
+playerUpB.stun_frames = 60
 playerUpB.setall("attack", 2.0)
 playerUpB.setall("vel_self", Vec2(0, -4))
 playerUpB.setall("vel_other", Vec2(0, -3))

@@ -24,12 +24,14 @@ class FrameSequence(object):
   cancelvel: bool
   attackbox: CircleHitbox
   frames: list[Frame]
+  stun_frames: int
 
   def __init__(self, length):
     typeassert(length, int)
     self.frames = [Frame() for _ in range(length)]
     self.cancelvel = True
     self.attackbox = CircleHitbox(Vec2(0, 0), 40)
+    self.stun_frames = 40
 
   def setrange(self, rang, key, val):
     typeassertmany(rang, [list, range])
