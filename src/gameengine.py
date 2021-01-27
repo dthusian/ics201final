@@ -1,6 +1,7 @@
 "ignore"; from physicsengine import *
 "ignore"; from frameengine import *
 "ignore"; from gameview import *
+"ignore"; from uiengine import *
 import pygame
 
 controls_map = {}
@@ -12,6 +13,9 @@ controls_map[pygame.K_UP] = "player2.jump"
 controls_map[pygame.K_LEFT] = "player2.left"
 controls_map[pygame.K_RIGHT] = "player2.right"
 controls_map[pygame.K_COMMA] = "player2.atk"
+
+startMenu = Menu("menu/start", "startmenu")
+instructionsMenu = Menu("menu/instructions", "instructions")
 
 # GameEngine holds all the objects and also assists in piping
 # input events to the game.
