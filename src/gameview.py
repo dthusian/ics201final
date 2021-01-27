@@ -38,6 +38,7 @@ class GameView(object):
 
   # Constructs a GameView with a Game.
   def __init__(self, game):
+    ics_log(LOGLEVEL_INFO, "Initialize Game View")
     self.render_target = pygame.display.get_surface()
     self.game = game
     self.assumed_size = Vec2(1920, 1080)

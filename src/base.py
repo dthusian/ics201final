@@ -90,6 +90,9 @@ class Vec2(object):
   def as_tuple(self):
     return (self.x, self.y)
 
+  def __repr__(self):
+    return f"Vec2({self.x}, {self.y})"
+
   # Converts a tuple with 2 components into an equivalent vector.
   @staticmethod
   def from_tuple(vec):

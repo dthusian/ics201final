@@ -6,6 +6,7 @@ class PhysicsEngine(object):
 
   def __init__(self, game):
     typeassert(game, Game)
+    ics_log(LOGLEVEL_INFO, "Initialize Physics Engine")
     self.game = game
 
   # Moves a player along it's velocity, checking for obstructions.
@@ -49,29 +50,33 @@ class PhysicsEngine(object):
     typeassert(keys, dict)
     self.game.players[0].movevec = Vec2(0, 0)
     self.game.players[1].movevec = Vec2(0, 0)
-    if keys["player1.left"]:
-      self.game.players[0].movevec = Vec2(-1.5, 0)
-    if keys["player1.right"]:
-      self.game.players[0].movevec = Vec2(1.5, 0)
-    if keys["player2.left"]:
-      self.game.players[1].movevec = Vec2(-1.5, 0)
-    if keys["player2.right"]:
-      self.game.players[1].movevec = Vec2(1.5, 0)
+    if keys["player1.left"] and self.game.players[0].active_seq is None:
+      self.game.players[0].movevec = Vec2(-6.5, 0)
+    if keys["player1.right"] and self.game.players[0].active_seq is None:
+      self.game.players[0].movevec = Vec2(6.5, 0)
+    if keys["player2.left"] and self.game.players[1].active_seq is None:
+      self.game.players[1].movevec = Vec2(-6.5, 0)
+    if keys["player2.right"] and self.game.players[1].active_seq is None:
+      self.game.players[1].movevec = Vec2(6.5, 0)
 
   def release_key(self, key):
     pass
 
   def press_key(self, key):
-    if key == "player1.jump" and self.game.players[0].jumps:
+    if key == "player1.jump" and self.game.players[0].jumps and self.game.players[0].active_seq is None:
       self.game.players[0].jumps -= 1
-      self.game.players[0].vel += Vec2(0, -3)
-    if key == "player2.jump" and self.game.players[1].jumps:
+      self.game.players[0].vel = Vec2(0, -16)
+    if key == "player2.jump" and self.game.players[1].jumps and self.game.players[1].active_seq is None:
       self.game.players[1].jumps -= 1
-      self.game.players[1].vel += Vec2(0, -3)
+      self.game.players[1].vel = Vec2(0, -16)
     
   def tick(self):
+    G = 0.7
     for pl in self.game.players:
-      pl.vel += Vec2(0, 0.03)
+      if pl.active_seq is None:
+        pl.vel += Vec2(0, G)
+      else:
+        pl.vel += Vec2(0, G * pl.active_seq.frames[pl.seq_index].gravity)
     for pl in self.game.players:
       prioryvel = pl.vel.y
       collided = self.safemove(pl, pl.movevec)
