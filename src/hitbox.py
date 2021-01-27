@@ -11,13 +11,15 @@ class CircleHitbox(object):
     typeassertmany(rad, [float, int])
     self.center = cent
     self.radius = float(rad)
-  
+
+  # Checks if a point is inside the hitbox
   def contains_point(self, point):
     typeassert(point, Vec2)
     diff = self.center - point
     distsq = diff * diff
     return (distsq.x + distsq.y) < self.radius ** 2
 
+  # Returns the smallest AABB that contains the circle
   def as_AABB(self):
     return AABBHitbox(self.center, Vec2(self.radius, self.radius) * 2)
 
@@ -31,7 +33,8 @@ class AABBHitbox(object):
     typeassert(siz, Vec2)
     self.center = cent
     self.size = siz
-  
+
+  # Same function as the one in CircularHitbox
   def contains_point(self, point):
     typeassert(point, Vec2)
     diff = self.center - point

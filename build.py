@@ -4,11 +4,19 @@
 import sys
 
 concatOrder = [
+  # Comment Documentation
+  "doc.py",
+
   # POD Classes:
   "base.py",
   "hitbox.py",
   "frames.py",
   "game.py",
+
+  # Libraries:
+  "display.py",
+  "texture.py",
+  "framedef.py",
 
   # Engines:
   "gameview.py",

@@ -4,6 +4,7 @@
 "ignore"; from uiengine import *
 import pygame
 
+# Maps the controls from pygame keys to key id strings
 controls_map = {}
 controls_map[pygame.K_w] = "player1.jump"
 controls_map[pygame.K_a] = "player1.left"
@@ -14,11 +15,13 @@ controls_map[pygame.K_LEFT] = "player2.left"
 controls_map[pygame.K_RIGHT] = "player2.right"
 controls_map[pygame.K_COMMA] = "player2.atk"
 
+# Menus
 startMenu = Menu("menu/start", "startmenu")
 instructionsMenu = Menu("menu/instructions", "instructions")
 
 # GameEngine holds all the objects and also assists in piping
 # input events to the game.
+# Alert: GameEngine isn't technically an engine.
 class GameEngine(object):
   game: Game
   view: GameView
@@ -35,6 +38,7 @@ class GameEngine(object):
     self.clock = pygame.time.Clock()
     ics_log(LOGLEVEL_INFO, "Game Engine finished initialization")
 
+  # Runs the main loop of the game
   def mainloop(self):
     while True:
       while True:
@@ -46,6 +50,7 @@ class GameEngine(object):
       self.draw()
       self.clock.tick(60)
 
+  # Handles input events
   def handle_event(self, ev):
     typeassert(ev, pygame.event.EventType)
     if ev.type == pygame.KEYUP:
@@ -58,9 +63,11 @@ class GameEngine(object):
         self.physics.press_key(mapped)
         self.frames.press_key(mapped)
 
+  # Draw!
   def draw(self):
     self.view.draw()
 
+  # Tick!
   def tick(self):
     pressed = pygame.key.get_pressed()
     buttons = controls_map.items()
@@ -71,7 +78,3 @@ class GameEngine(object):
     self.physics.tick()
     self.frames.process_keys(controls)
     self.frames.tick()
-
-  @staticmethod
-  def framerate_thread():
-    pass

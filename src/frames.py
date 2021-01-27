@@ -2,6 +2,7 @@
 
 from typing import Callable, Union
 
+# Represents a single Attack Frame
 class Frame(object):
   # The multiplier applied to gravity during the frame
   # Lower = less gravity, 0.0 = No gravity, 1.0 = Normal gravity
@@ -40,6 +41,7 @@ class Frame(object):
     self.stun_other = 30
     self.hook = None
 
+# FrameSequence
 class FrameSequence(object):
   cancelvel: bool
   attackbox: CircleHitbox
@@ -51,6 +53,7 @@ class FrameSequence(object):
     self.cancelvel = True
     self.attackbox = CircleHitbox(Vec2(0, 0), 40)
 
+  # Sets a attribute for a range of frames
   def setrange(self, rang, key, val):
     typeassertmany(rang, [list, range])
     typeassert(rang[0], int)
@@ -58,16 +61,20 @@ class FrameSequence(object):
     for i in rang:
       setattr(self.frames[i], key, val)
 
+  # Sets a attribute for all frames
   def setall(self, key, val):
     typeassert(key, str)
     for frame in self.frames:
       setattr(frame, key, val)
 
+  # Adds a hook function to be called on a specific frame
   def addhook(self, hook, frame):
     typeassert(frame, int)
     typeassert(hook, type(lambda: 0))
     self.frames[frame].hook = hook
 
+  # Mirrors the FrameSequence in the x-direction
+  # Used for making separate left and right animations
   def mirror_x(self):
     def mirror_vec2(x):
       typeassert(x, Vec2)

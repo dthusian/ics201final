@@ -90,6 +90,7 @@ class Vec2(object):
   def as_tuple(self):
     return (self.x, self.y)
 
+  # Allows Vec2 to be printed
   def __repr__(self):
     return f"Vec2({self.x}, {self.y})"
 

@@ -1,5 +1,7 @@
 "ignore"; from frames import *
 
+# Here we define all the player's moves.
+
 playerUpB = FrameSequence(16)
 
 playerUpB.setall("attack", 10.0)
