@@ -16,11 +16,11 @@ class TextureManager(object):
   def load(self, id):
     typeassert(id, str)
     if id in self.cache.keys():
-      return self.cache[id]
+      return self.cache[id].copy()
     else:
       tex = pygame.image.load("./assets/texture/{}.png".format(id))
       self.cache[id] = tex
-      return tex
+      return tex.copy()
 
   # Returns the global instance of the texture manager
   @staticmethod

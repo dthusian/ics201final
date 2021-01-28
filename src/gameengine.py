@@ -16,8 +16,11 @@ controls_map[pygame.K_RIGHT] = "player2.right"
 controls_map[pygame.K_COMMA] = "player2.atk"
 
 # Menus
-startMenu = Menu("menu/start", "startmenu")
-instructionsMenu = Menu("menu/instructions", "instructions")
+startMenu = Menu("menu/start")
+startMenu.add_button("menu/start_hover_play", AABBHitbox(Vec2(0, 0), Vec2(100, 100)), "game")
+startMenu.add_button("menu/start_hover_help", AABBHitbox(Vec2(100, 100), Vec2(100, 100)), "help")
+instructionsMenu = Menu("menu/help")
+instructionsMenu.add_button("menu/help_hover_back", AABBHitbox(Vec2(0, 0), Vec2(100, 100)), "start")
 
 # GameEngine holds all the objects and also assists in piping
 # input events to the game.
@@ -27,6 +30,7 @@ class GameEngine(object):
   view: GameView
   physics: PhysicsEngine
   frames: FrameEngine
+  ui: UIEngine
   clock: pygame.time.Clock
 
   def __init__(self):
@@ -35,6 +39,9 @@ class GameEngine(object):
     self.view = GameView(self.game)
     self.physics = PhysicsEngine(self.game)
     self.frames = FrameEngine(self.game)
+    self.ui = UIEngine()
+    self.ui.menus["start"] = startMenu
+    self.ui.menus["help"] = instructionsMenu
     self.clock = pygame.time.Clock()
     ics_log(LOGLEVEL_INFO, "Game Engine finished initialization")
 
@@ -52,20 +59,23 @@ class GameEngine(object):
 
   # Handles input events
   def handle_event(self, ev):
-    typeassert(ev, pygame.event.EventType)
-    if ev.type == pygame.KEYUP:
-      mapped = controls_map.get(ev.key)
-      if mapped:
-        self.physics.release_key(mapped)
+    typeassert(ev, pygame.EventType)
     if ev.type == pygame.KEYDOWN:
       mapped = controls_map.get(ev.key)
       if mapped:
         self.physics.press_key(mapped)
         self.frames.press_key(mapped)
+    if ev.type == pygame.MOUSEBUTTONUP:
+      self.ui.click(Vec2.from_tuple(ev.pos))
+    if ev.type == pygame.MOUSEMOTION:
+      self.ui.mousemove(Vec2.from_tuple(ev.pos))
 
   # Draw!
   def draw(self):
-    self.view.draw()
+    if self.ui.active == "game":
+      self.view.draw()
+    else:
+      self.ui.draw()
 
   # Tick!
   def tick(self):

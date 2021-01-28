@@ -15,13 +15,11 @@ attack_map = {
 class FrameEngine(object):
   game: Game
   keys: Dict[str, bool]
-  _debug_frameindex: int
 
   def __init__(self, game):
     typeassert(game, Game)
     ics_log(LOGLEVEL_INFO, "Initialize Frame Engine")
     self.game = game
-    self._debug_frameindex = 0
 
   # (Internal method) This function triggers a player to attack
   def try_atk(self, pindex, type_attack):
@@ -54,7 +52,6 @@ class FrameEngine(object):
 
   # This function will process all the attacks and stuff
   def tick(self):
-    self._debug_frameindex += 1
     # Make a list of player collisions
     attacks = []
     for pl in self.game.players:
@@ -92,8 +89,13 @@ class FrameEngine(object):
       target.stun_frames = cframe.stun_other
     # Process sequence indexes
     for pl in self.game.players:
-      if pl.active_seq:
+      if pl.active_seq is not None:
         pl.seq_index += 1
         if len(pl.active_seq.frames) == pl.seq_index:
           pl.seq_index = 0
           pl.active_seq = None
+      if pl.active_animation is not None:
+        pl.animation_index += 1
+        if len(pl.active_animation.frames) == pl.animation_index:
+          pl.animation_index = 0
+          pl.active_animation = None

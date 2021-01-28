@@ -1,13 +1,19 @@
 "ignore"; from frames import *
+"ignore"; from animation import *
 from typing import Union
 
 # Represents a player. There's not much here right now.
 class Player(object):
   body: CircleHitbox
+
   active_seq: Union[FrameSequence, None]
   seq_index: int
+  active_animation: Union[Animation, None]
+  animation_index: int
+
   vel: Vec2
   movevec: Vec2
+
   stun_frames: int
   damage: int
   jumps: int
@@ -22,6 +28,8 @@ class Player(object):
     self.jumps = 2
     self.movevec = Vec2(0, 0)
     self.stun_frames = 0
+    self.animation_index = None
+    self.animation_index = 0
 
 # Represents an ongoing game.
 class Game(object):
