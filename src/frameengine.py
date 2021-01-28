@@ -4,7 +4,7 @@ from typing import Dict
 
 # Maps a key string ID to a frame sequence
 attack_map = {
-  "up": playerUpB,
+  "jump": playerUpB,
   "down": playerDownB,
   "left": playerSideB,
   "right": playerSideB.mirror_x(),
@@ -24,10 +24,21 @@ class FrameEngine(object):
   # (Internal method) This function triggers a player to attack
   def try_atk(self, pindex, type_attack):
     pl = self.game.players[pindex]
-    if not pl.active_seq or pl.active_seq.frames[pl.seq_index].stun_self:
+    if pl.is_free():
       if type_attack in attack_map.keys() and attack_map[type_attack] is not None:
         pl.active_seq = attack_map[type_attack]
         pl.seq_index = 0
+        if type_attack == "jump":
+          pass
+          # TODO
+        elif type_attack == "left":
+          pl.set_animation(animAtkForward.mirror_x())
+        elif type_attack == "right":
+          pl.set_animation(animAtkForward)
+        elif type_attack == "down":
+          pl.set_animation(animAtkDown)
+        elif type_attack == "neutral":
+          pl.set_animation(animAtkNeutral)
 
   # Engine method
   def process_keys(self, keys):
@@ -83,10 +94,12 @@ class FrameEngine(object):
         target.damage += cframe.attack * (1 - target.active_seq.frames[target.seq_index].armor)
       else:
         target.damage += cframe.attack
-      target.vel += cframe.vel_other
+      vel_coef = 1 + target.damage / 100
+      target.vel += cframe.vel_other * Vec2(vel_coef, vel_coef)
       target.seq_index = 0
       target.active_seq = None
       target.stun_frames = cframe.stun_other
+      target.set_animation(animHurt)
     # Process sequence indexes
     for pl in self.game.players:
       if pl.active_seq is not None:

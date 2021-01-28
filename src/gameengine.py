@@ -65,10 +65,11 @@ class GameEngine(object):
       if mapped:
         self.physics.press_key(mapped)
         self.frames.press_key(mapped)
-    if ev.type == pygame.MOUSEBUTTONUP:
-      self.ui.click(Vec2.from_tuple(ev.pos))
-    if ev.type == pygame.MOUSEMOTION:
-      self.ui.mousemove(Vec2.from_tuple(ev.pos))
+    if self.ui.active != "game":
+      if ev.type == pygame.MOUSEBUTTONUP:
+        self.ui.click(Vec2.from_tuple(ev.pos))
+      if ev.type == pygame.MOUSEMOTION:
+        self.ui.mousemove(Vec2.from_tuple(ev.pos))
 
   # Draw!
   def draw(self):
@@ -79,6 +80,7 @@ class GameEngine(object):
 
   # Tick!
   def tick(self):
+    if self.ui.active != "game": return
     pressed = pygame.key.get_pressed()
     buttons = controls_map.items()
     controls = {}

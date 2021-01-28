@@ -15,10 +15,10 @@ playerUpB.setall("stun_self", True)
 playerUpB.setall("stun_other", 40)
 playerUpB.frames[15].vel_self = Vec2(0, -10)
 
-playerSideB = FrameSequence(200)
+playerSideB = FrameSequence(130)
 _startlag = range(0, 40)
-_active = range(40, 140)
-_endlag = range(140, 200)
+_active = range(40, 90)
+_endlag = range(90, 130)
 
 playerSideB.setrange(_startlag, "attack", 0.0)
 playerSideB.setrange(_startlag, "vel_self", Vec2(0, 0))
@@ -29,7 +29,7 @@ playerSideB.setrange(_startlag, "stun_self", True)
 playerSideB.setrange(_startlag, "stun_other", 0)
 
 playerSideB.setrange(_active, "attack", 25.0)
-playerSideB.setrange(_active, "vel_self", Vec2(-8, 0))
+playerSideB.setrange(_active, "vel_self", Vec2(-8, -0.1 ))
 playerSideB.setrange(_active, "vel_other", Vec2(-25, 0))
 playerSideB.setrange(_active, "gravity", 0.5)
 playerSideB.setrange(_active, "armor", 0.8)
@@ -102,6 +102,13 @@ playerNeutralB.setrange(_endlag, "armor", 0.0)
 playerNeutralB.setrange(_endlag, "stun_self", True)
 playerNeutralB.setrange(_endlag, "stun_other", 0)
 
+def healhook(pl, frame):
+  pl.damage -= 15
+  if pl.damage < 0:
+    pl.damage = 0
+
+playerNeutralB.addhook(healhook, 69)
+
 animIdle = Animation.load_keyframes("player/idle", 4, 15)
 animHurt = Animation.load_keyframes("player/hurt", 4, 3)
 
@@ -117,11 +124,14 @@ animJumpStart.flag = "jumpstart"
 animJumpActive = Animation.load_single("player/jumpstart@2")
 animJumpEnd = Animation.load_keyframes("player/jumpend", 4, 3)
 
-animAtkNeutral = Animation.load_keyframes("player/neutralatk", 4, 2)
+_tmp = Animation.load_keyframes("player/neutralatk", 4, 2)
+animAtkNeutral = Animation(70)
+for i in range(len(animAtkNeutral.frames)):
+  animAtkNeutral.frames[i] = _tmp.frames[i % len(_tmp.frames)]
 
 # TODO add tools
 animAtkUpStart = Animation.load_single("player/upatkstart")
 animAtkUpActive = Animation.load_single("player/upatkactive")
 animAtkUpEnd = Animation.load_single("player/upatkend")
-animAtkDown = Animation.load_single("player/downatk")
-animAtkForward = Animation.load_single("player/forwardatk")
+animAtkDown = Animation.load_single("player/downatk", len(playerDownB.frames))
+animAtkForward = Animation.load_single("player/forwardatk", len(playerSideB.frames))

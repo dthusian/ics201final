@@ -78,9 +78,8 @@ class Animation(object):
     return ret
 
   @staticmethod
-  def load_single(path):
+  def load_single(path, length=1):
     typeassert(path, str)
-    ret = Animation(1)
-    ret.frames[0] = ImageFrame()
-    ret.frames[0].main_tex = TextureManager.ref().load(path)
+    ret = Animation(length)
+    ret.setall("main_tex", TextureManager.ref().load(path))
     return ret
