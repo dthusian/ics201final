@@ -129,12 +129,18 @@ animAtkNeutral = Animation(70)
 for i in range(len(animAtkNeutral.frames)):
   animAtkNeutral.frames[i] = _tmp.frames[i % len(_tmp.frames)]
 
-# TODO add tools
 animAtkUp = Animation(len(playerUpB.frames))
 animAtkUp.setrange(range(0, 3), "main_tex", TextureManager.ref().load("player/upatkstart"))
 animAtkUp.setrange(range(3, 13), "main_tex", TextureManager.ref().load("player/upatkactive"))
 animAtkUp.setrange(range(13, 16), "main_tex", TextureManager.ref().load("player/upatkend"))
+animAtkUp.setall("weapon_tex", TextureManager.ref().load("tool/sword"))
+animAtkUp.setall("weapon_pos", Vec2(0, -30))
+animAtkUp.setall("weapon_rot", 45)
 
 animAtkDown = Animation.load_single("player/downatk", len(playerDownB.frames))
+
 animAtkForward = Animation.load_single("player/forwardatk", len(playerSideB.frames))
 animAtkForward.flag = "sideatk"
+animAtkForward.setall("weapon_tex", TextureManager.ref().load("tool/axe"))
+animAtkForward.setall("weapon_pos", Vec2(75, 45))
+animAtkForward.setall("weapon_rot", 0)
