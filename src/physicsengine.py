@@ -99,4 +99,8 @@ class PhysicsEngine(object):
       if collided and prioryvel > 0:
         pl.jumps = 2
       if not playing_area.contains_point(pl.body.center):
-        self.game.winner = not self.game.players.index(pl)
+        index = self.game.players.index(pl)
+        if index == 0:
+          self.game.winner = 1
+        if index == 1:
+          self.game.winner = 0

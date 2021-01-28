@@ -91,6 +91,7 @@ class GameEngine(object):
       _scaled_size = translate_px(Vec2(1920, 1080))
       _scaled_image = pygame.transform.scale(TextureManager.ref().load("stage/gameend"), (int(_scaled_size.x), int(_scaled_size.y)))
       self.view.render_target.blit(_scaled_image, (0, 0))
+      pygame.display.flip()
     elif self.ui.active == "game":
       self.view.draw()
     else:
