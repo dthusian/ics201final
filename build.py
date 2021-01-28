@@ -10,6 +10,7 @@ concatOrder = [
   # POD Classes:
   "base.py",
   "hitbox.py",
+  "animation.py",
   "frames.py",
   "game.py",
 
@@ -22,8 +23,8 @@ concatOrder = [
   "gameview.py",
   "frameengine.py",
   "physicsengine.py",
-  "gameengine.py",
   "uiengine.py",
+  "gameengine.py",
 
   # Main:
   "main.py"
