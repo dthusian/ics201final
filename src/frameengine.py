@@ -96,6 +96,7 @@ class FrameEngine(object):
         target.damage += cframe.attack
       vel_coef = 1 + target.damage / 100
       target.vel += cframe.vel_other * Vec2(vel_coef, vel_coef)
+      target.body.center.y -= 1
       target.seq_index = 0
       target.active_seq = None
       target.stun_frames = cframe.stun_other
