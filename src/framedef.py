@@ -15,13 +15,13 @@ playerUpB.setall("stun_self", True)
 playerUpB.setall("stun_other", 40)
 playerUpB.frames[15].vel_self = Vec2(0, -10)
 
-playerSideB = FrameSequence(130)
-_startlag = range(0, 40)
-_active = range(40, 90)
-_endlag = range(90, 130)
+playerSideB = FrameSequence(60)
+_startlag = range(0, 5)
+_active = range(5, 40)
+_endlag = range(40, 50)
 
 playerSideB.setrange(_startlag, "attack", 0.0)
-playerSideB.setrange(_startlag, "vel_self", Vec2(0, 0))
+playerSideB.setrange(_startlag, "vel_self", Vec2(0, -1))
 playerSideB.setrange(_startlag, "vel_other", Vec2(0, 0))
 playerSideB.setrange(_startlag, "gravity", 0.0)
 playerSideB.setrange(_startlag, "armor", 0.0)
@@ -130,8 +130,11 @@ for i in range(len(animAtkNeutral.frames)):
   animAtkNeutral.frames[i] = _tmp.frames[i % len(_tmp.frames)]
 
 # TODO add tools
-animAtkUpStart = Animation.load_single("player/upatkstart")
-animAtkUpActive = Animation.load_single("player/upatkactive")
-animAtkUpEnd = Animation.load_single("player/upatkend")
+animAtkUp = Animation(len(playerUpB.frames))
+animAtkUp.setrange(range(0, 3), "main_tex", TextureManager.ref().load("player/upatkstart"))
+animAtkUp.setrange(range(3, 13), "main_tex", TextureManager.ref().load("player/upatkactive"))
+animAtkUp.setrange(range(13, 16), "main_tex", TextureManager.ref().load("player/upatkend"))
+
 animAtkDown = Animation.load_single("player/downatk", len(playerDownB.frames))
 animAtkForward = Animation.load_single("player/forwardatk", len(playerSideB.frames))
+animAtkForward.flag = "sideatk"

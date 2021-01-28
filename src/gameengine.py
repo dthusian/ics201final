@@ -8,11 +8,13 @@ import pygame
 controls_map = {}
 controls_map[pygame.K_w] = "player1.jump"
 controls_map[pygame.K_a] = "player1.left"
+controls_map[pygame.K_s] = "player1.down"
 controls_map[pygame.K_d] = "player1.right"
 controls_map[pygame.K_1] = "player1.atk"
 controls_map[pygame.K_UP] = "player2.jump"
 controls_map[pygame.K_LEFT] = "player2.left"
 controls_map[pygame.K_RIGHT] = "player2.right"
+controls_map[pygame.K_DOWN] = "player2.down"
 controls_map[pygame.K_COMMA] = "player2.atk"
 
 # Menus

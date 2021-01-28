@@ -29,8 +29,7 @@ class FrameEngine(object):
         pl.active_seq = attack_map[type_attack]
         pl.seq_index = 0
         if type_attack == "jump":
-          pass
-          # TODO
+          pl.set_animation(animAtkUp)
         elif type_attack == "left":
           pl.set_animation(animAtkForward.mirror_x())
         elif type_attack == "right":

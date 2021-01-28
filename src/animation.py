@@ -5,6 +5,7 @@ import pygame
 
 # Constant for sprite scaling
 _sprite_scale = 2.5
+_tool_scale = 1.5
 
 # Represents one frame of an image
 class ImageFrame(object):
@@ -22,10 +23,17 @@ class ImageFrame(object):
   def draw(self, render_target, pos):
     typeassert(pos, Vec2)
     typeassert(render_target, pygame.Surface)
+    # Scale and render player
     _scaled_size = translate_px(Vec2.from_tuple(self.main_tex.get_size())
                                 * Vec2(_sprite_scale, _sprite_scale))
     _scaled_image = pygame.transform.scale(self.main_tex, (int(_scaled_size.x), int(_scaled_size.y)))
-    render_target.blit(_scaled_image, translate_px(pos - Vec2.from_tuple(self.main_tex.get_size())).as_tuple())
+    render_target.blit(_scaled_image, translate_px(pos - Vec2.from_tuple(self.main_tex.get_size()) / Vec2(2, 2)).as_tuple())
+    # Scale and render tool
+    _scaled_size = translate_px(Vec2.from_tuple(self.weapon_tex.get_size())
+                                * Vec2(_tool_scale, _tool_scale))
+    _scaled_image = pygame.transform.scale(self.weapon_tex, (int(_scaled_size.x), int(_scaled_size.y)))
+    _scaled_image = pygame.transform.rotate(_scaled_image, self.weapon_rot)
+    render_target.blit(_scaled_image, translate_px(pos + self.weapon_pos - Vec2.from_tuple(self.main_tex.get_size()) / Vec2(2, 2)).as_tuple())
     pass
 
 # Animation.
