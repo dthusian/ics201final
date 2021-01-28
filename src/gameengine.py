@@ -17,10 +17,10 @@ controls_map[pygame.K_COMMA] = "player2.atk"
 
 # Menus
 startMenu = Menu("menu/start")
-startMenu.add_button("menu/start_hover_play", AABBHitbox(Vec2(0, 0), Vec2(100, 100)), "game")
-startMenu.add_button("menu/start_hover_help", AABBHitbox(Vec2(100, 100), Vec2(100, 100)), "help")
+startMenu.add_button("menu/start_hover_play", AABBHitbox(Vec2(1129, 365), Vec2(483, 146)), "game")
+startMenu.add_button("menu/start_hover_help", AABBHitbox(Vec2(1140, 600), Vec2(483, 146)), "help")
 instructionsMenu = Menu("menu/help")
-instructionsMenu.add_button("menu/help_hover_back", AABBHitbox(Vec2(0, 0), Vec2(100, 100)), "start")
+instructionsMenu.add_button("menu/help_hover_back", AABBHitbox(Vec2(125, 65), Vec2(270, 73)), "start")
 
 # GameEngine holds all the objects and also assists in piping
 # input events to the game.

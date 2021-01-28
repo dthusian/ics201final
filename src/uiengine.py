@@ -66,4 +66,8 @@ class UIEngine(object):
 
   def click(self, pos):
     typeassert(pos, Vec2)
-    # TODO
+    menu = self.menus[self.active]
+    for button in menu.buttons:
+      aabb = button.box
+      if aabb.contains_point(pos):
+        self.active = button.next_menu
