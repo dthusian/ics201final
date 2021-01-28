@@ -84,7 +84,7 @@ class GameEngine(object):
     controls = {}
     for button in buttons:
       controls[button[1]] = pressed[button[0]]
-    self.physics.process_keys(controls)
-    self.physics.tick()
     self.frames.process_keys(controls)
     self.frames.tick()
+    self.physics.process_keys(controls)
+    self.physics.tick()

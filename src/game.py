@@ -1,6 +1,6 @@
 "ignore"; from frames import *
 "ignore"; from animation import *
-from typing import Union
+from typing import Union, List
 
 # Represents a player. There's not much here right now.
 class Player(object):
@@ -28,7 +28,7 @@ class Player(object):
     self.jumps = 2
     self.movevec = Vec2(0, 0)
     self.stun_frames = 0
-    self.active_animation = Animation.load_keyframes("player/idle", 4)
+    self.active_animation = Animation.load_keyframes("player/idle", 4, 15)
     self.animation_index = 0
 
   def set_animation(self, animation):
@@ -36,10 +36,13 @@ class Player(object):
     self.animation_index = 0
     self.active_animation = animation
 
+  def is_free(self):
+    return self.stun_frames == 0 and (self.active_seq is None or not self.active_seq.frames[self.seq_index].stun_self)
+
 # Represents an ongoing game.
 class Game(object):
-  players: list[Player]
-  mapboxes: list[AABBHitbox]
+  players: List[Player]
+  mapboxes: List[AABBHitbox]
   def __init__(self):
     # Initialize dummy map
     self.mapboxes = []

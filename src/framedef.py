@@ -2,6 +2,7 @@
 "ignore"; from animation import *
 
 # Here we define all the player's moves.
+# And all the animations.
 
 playerUpB = FrameSequence(16)
 
@@ -101,17 +102,22 @@ playerNeutralB.setrange(_endlag, "armor", 0.0)
 playerNeutralB.setrange(_endlag, "stun_self", True)
 playerNeutralB.setrange(_endlag, "stun_other", 0)
 
-animIdle = Animation.load_keyframes("player/idle", 4)
-animHurt = Animation.load_keyframes("player/hurt", 4)
+animIdle = Animation.load_keyframes("player/idle", 4, 15)
+animHurt = Animation.load_keyframes("player/hurt", 4, 3)
 
-animMoveStart = Animation.load_keyframes("player/movestart", 3)
-animMoveActive = Animation.load_keyframes("player/moveactive", 8)
-animMoveEnd = Animation.load_keyframes("player/moveend", 3)
+animMoveStart = Animation.load_keyframes("player/movestart", 3, 3)
+animMoveStart.flag = "move"
+animMoveActive = Animation.load_keyframes("player/moveactive", 8, 3)
+animMoveActive.flag = "move"
+animMoveEnd = Animation.load_keyframes("player/moveend", 3, 3)
+animMoveEnd.flag = "move"
 
-animJumpStart = Animation.load_keyframes("player/jumpstart", 3)
-animJumpEnd = Animation.load_keyframes("player/jumpend", 4)
+animJumpStart = Animation.load_keyframes("player/jumpstart", 3, 3)
+animJumpStart.flag = "jumpstart"
+animJumpActive = Animation.load_single("player/jumpstart@2")
+animJumpEnd = Animation.load_keyframes("player/jumpend", 4, 3)
 
-animAtkNeutral = Animation.load_keyframes("player/neutralatk", 4)
+animAtkNeutral = Animation.load_keyframes("player/neutralatk", 4, 2)
 
 # TODO add tools
 animAtkUpStart = Animation.load_single("player/upatkstart")

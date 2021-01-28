@@ -49,12 +49,21 @@ class PhysicsEngine(object):
 
   def try_move(self, keys, pid):
     pl = self.game.players[pid]
-    if keys["player{}.left".format(pid + 1)] and pl.stun_frames == 0:
+    if keys["player{}.left".format(pid + 1)] and pl.is_free():
       pl.movevec = Vec2(-6.5, 0)
-      pl.set_animation(animMoveStart)
-    if keys["player{}.right".format(pid + 1)] and pl.stun_frames == 0:
+      if pl.active_animation.flag != "move":
+        pl.set_animation(animMoveStart.mirror_x())
+    if keys["player{}.right".format(pid + 1)] and pl.is_free():
       pl.movevec = Vec2(6.5, 0)
-      pl.set_animation(animMoveStart)
+      if pl.active_animation.flag != "move":
+        pl.set_animation(animMoveStart)
+
+  def try_jump(self, key, pid):
+    pl = self.game.players[pid]
+    if key == "player{}.jump".format(pid + 1) and pl.jumps and pl.is_free():
+      pl.jumps -= 1
+      pl.vel = Vec2(0, -16)
+      pl.set_animation(animJumpStart)
 
   # Engine methods
 
@@ -63,18 +72,11 @@ class PhysicsEngine(object):
     self.game.players[0].movevec = Vec2(0, 0)
     self.game.players[1].movevec = Vec2(0, 0)
     self.try_move(keys, 0)
-    if keys["player2.left"] and self.game.players[1].stun_frames == 0:
-      self.game.players[1].movevec = Vec2(-6.5, 0)
-    if keys["player2.right"] and self.game.players[1].stun_frames == 0:
-      self.game.players[1].movevec = Vec2(6.5, 0)
+    self.try_move(keys, 1)
 
   def press_key(self, key):
-    if key == "player1.jump" and self.game.players[0].jumps and self.game.players[0].active_seq is None:
-      self.game.players[0].jumps -= 1
-      self.game.players[0].vel = Vec2(0, -16)
-    if key == "player2.jump" and self.game.players[1].jumps and self.game.players[1].active_seq is None:
-      self.game.players[1].jumps -= 1
-      self.game.players[1].vel = Vec2(0, -16)
+    self.try_jump(key, 0)
+    self.try_jump(key, 1)
     
   def tick(self):
     G = 0.7

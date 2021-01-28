@@ -96,8 +96,14 @@ class FrameEngine(object):
           pl.active_seq = None
       if pl.active_animation is not None:
         pl.animation_index += 1
+        # Handle animation ending
         if len(pl.active_animation.frames) == pl.animation_index:
+          # If player is hurt, play stun animation again
           if pl.stun_frames > 0:
             pl.set_animation(animHurt)
+          # If player has just jumped, keep jump
+          elif pl.active_animation.flag == "jumpstart":
+            pl.set_animation(animJumpActive)
+          # Else go into idle
           else:
             pl.set_animation(animIdle)
