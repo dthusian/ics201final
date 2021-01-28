@@ -54,3 +54,10 @@ class Animation(object):
       ret.frames[i] = ImageFrame()
       ret.frames[i].main_tex = TextureManager.ref().load("{}@{}".format(path, i))
     return ret
+
+  @staticmethod
+  def load_single(path):
+    ret = Animation(1)
+    ret.frames[0] = ImageFrame()
+    ret.frames[0].main_tex = TextureManager.ref().load(path)
+    return ret

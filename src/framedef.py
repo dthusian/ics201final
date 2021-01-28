@@ -1,4 +1,5 @@
 "ignore"; from frames import *
+"ignore"; from animation import *
 
 # Here we define all the player's moves.
 
@@ -100,3 +101,21 @@ playerNeutralB.setrange(_endlag, "armor", 0.0)
 playerNeutralB.setrange(_endlag, "stun_self", True)
 playerNeutralB.setrange(_endlag, "stun_other", 0)
 
+animIdle = Animation.load_keyframes("player/idle", 4)
+animHurt = Animation.load_keyframes("player/hurt", 4)
+
+animMoveStart = Animation.load_keyframes("player/movestart", 3)
+animMoveActive = Animation.load_keyframes("player/moveactive", 8)
+animMoveEnd = Animation.load_keyframes("player/moveend", 3)
+
+animJumpStart = Animation.load_keyframes("player/jumpstart", 3)
+animJumpEnd = Animation.load_keyframes("player/jumpend", 4)
+
+animAtkNeutral = Animation.load_keyframes("player/neutralatk", 4)
+
+# TODO add tools
+animAtkUpStart = Animation.load_single("player/upatkstart")
+animAtkUpActive = Animation.load_single("player/upatkactive")
+animAtkUpEnd = Animation.load_single("player/upatkend")
+animAtkDown = Animation.load_single("player/downatk")
+animAtkForward = Animation.load_single("player/forwardatk")

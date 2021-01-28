@@ -6,7 +6,7 @@ from typing import Union
 class Player(object):
   body: CircleHitbox
 
-  active_seq: Union[FrameSequence, None]
+  active_seq: FrameSequence
   seq_index: int
   active_animation: Union[Animation, None]
   animation_index: int
@@ -28,7 +28,7 @@ class Player(object):
     self.jumps = 2
     self.movevec = Vec2(0, 0)
     self.stun_frames = 0
-    self.animation_index = None
+    self.active_animation = Animation.load_keyframes("player/idle", 4)
     self.animation_index = 0
 
   def set_animation(self, animation):

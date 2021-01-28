@@ -8,7 +8,7 @@ attack_map = {
   "down": playerDownB,
   "left": playerSideB,
   "right": playerSideB.mirror_x(),
-  "neutral": playerNeutralB # TODO
+  "neutral": playerNeutralB
 }
 
 # Handles frame sequences, attacks, and animations
@@ -97,5 +97,7 @@ class FrameEngine(object):
       if pl.active_animation is not None:
         pl.animation_index += 1
         if len(pl.active_animation.frames) == pl.animation_index:
-          pl.animation_index = 0
-          pl.active_animation = None
+          if pl.stun_frames > 0:
+            pl.set_animation(animHurt)
+          else:
+            pl.set_animation(animIdle)

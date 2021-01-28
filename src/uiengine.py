@@ -55,7 +55,10 @@ class UIEngine(object):
       aabb = button.box
       if aabb.contains_point(self.mousepos):
         nimage = button.hover_mod
-    self.render_target.blit(nimage, pygame.Rect((0, 0), translate_px(Vec2(1920, 1080)).as_tuple()))
+    size = translate_px(Vec2(1920, 1080))
+    scaled_image = pygame.transform.scale(nimage, (int(size.x), int(size.y)))
+    self.render_target.blit(scaled_image, (0, 0))
+    pygame.display.flip()
 
   def mousemove(self, pos):
     typeassert(pos, Vec2)

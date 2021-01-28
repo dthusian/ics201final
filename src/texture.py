@@ -18,7 +18,7 @@ class TextureManager(object):
     if id in self.cache.keys():
       return self.cache[id].copy()
     else:
-      tex = pygame.image.load("./assets/texture/{}.png".format(id))
+      tex = pygame.image.load("./assets/{}.png".format(id))
       self.cache[id] = tex
       return tex.copy()
 

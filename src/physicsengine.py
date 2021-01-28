@@ -1,4 +1,5 @@
 "ignore"; from game import *
+"ignore"; from framedef import *
 
 # The physics engine. It processes physics objects (like players) moving
 class PhysicsEngine(object):
@@ -46,19 +47,25 @@ class PhysicsEngine(object):
       pl.body.center += vec
       return False
 
+  def try_move(self, keys, pid):
+    pl = self.game.players[pid]
+    if keys["player{}.left".format(pid + 1)] and pl.stun_frames == 0:
+      pl.movevec = Vec2(-6.5, 0)
+      pl.set_animation(animMoveStart)
+    if keys["player{}.right".format(pid + 1)] and pl.stun_frames == 0:
+      pl.movevec = Vec2(6.5, 0)
+      pl.set_animation(animMoveStart)
+
   # Engine methods
 
   def process_keys(self, keys):
     typeassert(keys, dict)
     self.game.players[0].movevec = Vec2(0, 0)
     self.game.players[1].movevec = Vec2(0, 0)
-    if keys["player1.left"] and self.game.players[0].active_seq is None:
-      self.game.players[0].movevec = Vec2(-6.5, 0)
-    if keys["player1.right"] and self.game.players[0].active_seq is None:
-      self.game.players[0].movevec = Vec2(6.5, 0)
-    if keys["player2.left"] and self.game.players[1].active_seq is None:
+    self.try_move(keys, 0)
+    if keys["player2.left"] and self.game.players[1].stun_frames == 0:
       self.game.players[1].movevec = Vec2(-6.5, 0)
-    if keys["player2.right"] and self.game.players[1].active_seq is None:
+    if keys["player2.right"] and self.game.players[1].stun_frames == 0:
       self.game.players[1].movevec = Vec2(6.5, 0)
 
   def press_key(self, key):

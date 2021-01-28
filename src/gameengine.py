@@ -59,7 +59,7 @@ class GameEngine(object):
 
   # Handles input events
   def handle_event(self, ev):
-    typeassert(ev, pygame.EventType)
+    typeassert(ev, pygame.event.EventType)
     if ev.type == pygame.KEYDOWN:
       mapped = controls_map.get(ev.key)
       if mapped:
