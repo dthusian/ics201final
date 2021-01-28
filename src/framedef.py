@@ -70,3 +70,33 @@ playerDownB.setrange(_endlag, "gravity", 1.0)
 playerDownB.setrange(_endlag, "armor", 0.0)
 playerDownB.setrange(_endlag, "stun_self", False)
 playerDownB.setrange(_endlag, "stun_other", 0)
+
+playerNeutralB = FrameSequence(70)
+_startlag = range(0, 5)
+_active = range(5, 65)
+_endlag = range(65, 70)
+
+playerNeutralB.setrange(_startlag, "attack", 0.0)
+playerNeutralB.setrange(_startlag, "vel_self", Vec2(0, 0))
+playerNeutralB.setrange(_startlag, "vel_other", Vec2(0, 0))
+playerNeutralB.setrange(_startlag, "gravity", 0.5)
+playerNeutralB.setrange(_startlag, "armor", 0.2)
+playerNeutralB.setrange(_startlag, "stun_self", True)
+playerNeutralB.setrange(_startlag, "stun_other", 0)
+
+playerNeutralB.setrange(_active, "attack", 0.0)
+playerNeutralB.setrange(_active, "vel_self", Vec2(0, 0))
+playerNeutralB.setrange(_active, "vel_other", Vec2(0, 0))
+playerNeutralB.setrange(_active, "gravity", 0.0)
+playerNeutralB.setrange(_active, "armor", -0.5) # You take more damage if you get attacked
+playerNeutralB.setrange(_active, "stun_self", True)
+playerNeutralB.setrange(_active, "stun_other", 0)
+
+playerNeutralB.setrange(_endlag, "attack", 0.0)
+playerNeutralB.setrange(_endlag, "vel_self", Vec2(0, 0))
+playerNeutralB.setrange(_endlag, "vel_other", Vec2(0, 0))
+playerNeutralB.setrange(_endlag, "gravity", 1.0)
+playerNeutralB.setrange(_endlag, "armor", 0.0)
+playerNeutralB.setrange(_endlag, "stun_self", True)
+playerNeutralB.setrange(_endlag, "stun_other", 0)
+

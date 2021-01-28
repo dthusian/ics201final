@@ -8,7 +8,7 @@ attack_map = {
   "down": playerDownB,
   "left": playerSideB,
   "right": playerSideB.mirror_x(),
-  "neutral": None # TODO
+  "neutral": playerNeutralB # TODO
 }
 
 # Handles frame sequences, attacks, and animations

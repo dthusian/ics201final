@@ -38,8 +38,7 @@ class Animation(object):
     def mirror_vec2(x):
       typeassert(x, Vec2)
       return Vec2(-x.x, x.y)
-    na = Animation()
-    na.frames = [ImageFrame() for _ in self.frames]
+    na = Animation(len(self.frames))
     for i in range(len(self.frames)):
       src = self.frames[i]
       dst = na.frames[i]
@@ -47,3 +46,11 @@ class Animation(object):
       dst.weapon_tex = pygame.transform.flip(src.weapon_tex.copy(), True, False)
       dst.weapon_rot = 360 - src.weapon_rot
       dst.weapon_pos = mirror_vec2(src.weapon_pos)
+
+  @staticmethod
+  def load_keyframes(path, length):
+    ret = Animation(length)
+    for i in range(length):
+      ret.frames[i] = ImageFrame()
+      ret.frames[i].main_tex = TextureManager.ref().load("{}@{}".format(path, i))
+    return ret

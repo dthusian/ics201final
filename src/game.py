@@ -31,6 +31,11 @@ class Player(object):
     self.animation_index = None
     self.animation_index = 0
 
+  def set_animation(self, animation):
+    typeassert(animation, Animation)
+    self.animation_index = 0
+    self.active_animation = animation
+
 # Represents an ongoing game.
 class Game(object):
   players: list[Player]
