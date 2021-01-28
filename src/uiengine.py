@@ -6,6 +6,9 @@ from typing import List, Dict
 
 import pygame
 
+# Represents a button.
+# This is an object that can be clicked
+# and will go to another menu or the game
 class Button(object):
   hover_mod: pygame.Surface
   box: AABBHitbox
@@ -19,6 +22,7 @@ class Button(object):
     self.box = hitbox
     self.hover_mod = image
 
+# Represents a menu. This is an image with buttons on it.
 class Menu(object):
   button_type: int
   image: pygame.Surface
@@ -29,12 +33,15 @@ class Menu(object):
     self.image = TextureManager.ref().load(image)
     self.buttons = []
 
+  # Adds a button to the menu.
   def add_button(self, hover_image, box, next_menu):
     typeassert(hover_image, str)
     typeassert(box, AABBHitbox)
     typeassert(next_menu, str)
     self.buttons.append(Button(TextureManager.ref().load(hover_image), box, next_menu))
 
+# This engine processes UI and clicking
+# and changing menus
 class UIEngine(object):
   menus: Dict[str, Menu]
   active: str
@@ -48,9 +55,12 @@ class UIEngine(object):
     self.mousepos = Vec2(0, 0)
     self.active = "start"
 
+  # All of these are engine methods
+
   def draw(self):
     menu = self.menus[self.active]
     nimage = menu.image
+    # Look for if a button is being hovered
     for button in menu.buttons:
       aabb = button.box
       if aabb.contains_point(self.mousepos):

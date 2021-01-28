@@ -87,6 +87,7 @@ class FrameEngine(object):
     # Now loop through the attacks and update state
     for atk in attacks:
       # Process the player being hit
+      # All these lines are relatively easy to understand given some knowledge of the codebase
       target, attack = atk
       cframe = attack.active_seq.frames[attack.seq_index]
       if target.active_seq is not None:
@@ -104,18 +105,18 @@ class FrameEngine(object):
       if pl.active_seq is not None:
         pl.seq_index += 1
         if len(pl.active_seq.frames) == pl.seq_index:
+          # When sequence is over
           pl.seq_index = 0
           pl.active_seq = None
-      if pl.active_animation is not None:
-        pl.animation_index += 1
-        # Handle animation ending
-        if len(pl.active_animation.frames) == pl.animation_index:
-          # If player is hurt, play stun animation again
-          if pl.stun_frames > 0:
-            pl.set_animation(animHurt)
-          # If player has just jumped, keep jump
-          elif pl.active_animation.flag == "jumpstart":
-            pl.set_animation(animJumpActive)
-          # Else go into idle
-          else:
-            pl.set_animation(animIdle)
+      pl.animation_index += 1
+      # Handle animation ending
+      if len(pl.active_animation.frames) == pl.animation_index:
+        # If player is hurt, play stun animation again
+        if pl.stun_frames > 0:
+          pl.set_animation(animHurt)
+        # If player has just jumped, keep jump
+        elif pl.active_animation.flag == "jumpstart":
+          pl.set_animation(animJumpActive)
+        # Else go into idle
+        else:
+          pl.set_animation(animIdle)

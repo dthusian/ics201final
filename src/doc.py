@@ -45,4 +45,14 @@ attack value on the player's current Attack Frame.
 An Animation is similar but distinct. An Animation is a sequence of images
 that is used to draw a player. Animations only contain image data and thus
 are not used for damage and physics calculations.
+
+# Section 4: About the UI Engine
+
+In the UI Engine, I went super budget. Button's don't draw themselves, and
+instead rely on the button graphic existing inside the menu graphic.
+
+# Extras
+
+This project uses snake_case, because the greater Python community seems to
+like that better.
 """

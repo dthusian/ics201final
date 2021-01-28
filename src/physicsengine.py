@@ -47,6 +47,7 @@ class PhysicsEngine(object):
       pl.body.center += vec
       return False
 
+  # (Internal method) Triggers a player to move (if it can)
   def try_move(self, keys, pid):
     pl = self.game.players[pid]
     if keys["player{}.left".format(pid + 1)] and pl.is_free():
@@ -58,6 +59,7 @@ class PhysicsEngine(object):
       if pl.active_animation.flag != "move":
         pl.set_animation(animMoveStart)
 
+  # (Internal method) Triggers a player to jump if it can
   def try_jump(self, key, pid):
     pl = self.game.players[pid]
     if key == "player{}.jump".format(pid + 1) and pl.jumps and pl.is_free():
@@ -77,15 +79,18 @@ class PhysicsEngine(object):
   def press_key(self, key):
     self.try_jump(key, 0)
     self.try_jump(key, 1)
-    
+
   def tick(self):
     G = 0.7
+    playing_area = AABBHitbox(Vec2(1920 / 2, 1080 / 2), Vec2(1920 + 400, 1080 + 250))
     for pl in self.game.players:
       if pl.active_seq is None:
         pl.vel += Vec2(0, G)
       else:
         pl.vel += Vec2(0, G * pl.active_seq.frames[pl.seq_index].gravity)
     for pl in self.game.players:
+      # Handling of jumps
+      # Players only get 2 jumps
       prioryvel = pl.vel.y
       collided = self.safemove(pl, pl.movevec)
       if collided and prioryvel > 0:
@@ -93,3 +98,5 @@ class PhysicsEngine(object):
       collided = self.safemove(pl, pl.vel)
       if collided and prioryvel > 0:
         pl.jumps = 2
+      if not playing_area.contains_point(pl.body.center):
+        self.game.winner = not self.game.players.index(pl)

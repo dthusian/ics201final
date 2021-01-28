@@ -2,6 +2,9 @@ import pygame
 
 "ignore"; from base import *
 
+# Display size
+# I am emotionally unable to write a non-DPI-aware application
+# (technically this isn't DPI-aware because it doesn't know the screen dimensions but just go with it)
 display_size = (1920, 1080)
 assumed_size = Vec2(1920, 1080)
 
@@ -21,6 +24,7 @@ def init_display():
     ics_log(LOGLEVEL_WARNING, "Couldn't detect your display size. Assuming 1920x1080.")
   else:
     display_size = (dispinfo.current_w, dispinfo.current_h)
+  # Check the ratio
   ratio = dispinfo.current_w / dispinfo.current_h
   expected_ratio = 16 / 9
   if abs(ratio - expected_ratio) > 0.00001:

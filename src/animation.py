@@ -3,7 +3,7 @@
 
 import pygame
 
-# Constant for sprite scaling
+# Constants for sprite scaling
 _sprite_scale = 2.5
 _tool_scale = 1.5
 
@@ -20,6 +20,7 @@ class ImageFrame(object):
     self.weapon_pos = Vec2(0, 0)
     self.weapon_rot = 0
 
+  # Very complex function for drawing a frame to the screen
   def draw(self, render_target, pos):
     typeassert(pos, Vec2)
     typeassert(render_target, pygame.Surface)
@@ -36,7 +37,7 @@ class ImageFrame(object):
     render_target.blit(_scaled_image, translate_px(pos + self.weapon_pos - Vec2.from_tuple(self.main_tex.get_size()) / Vec2(2, 2)).as_tuple())
     pass
 
-# Animation.
+# Animation. Is a sequence of ImageFrames
 class Animation(object):
   frames: [ImageFrame]
   flag: str
@@ -45,6 +46,7 @@ class Animation(object):
     self.frames = [ImageFrame() for _ in range(length)]
     self.flag = ""
 
+  # Useful functions for manipulating sequence
   def setrange(self, rang, key, val):
     typeassertmany(rang, [list, range])
     typeassert(rang[0], int)
@@ -52,11 +54,13 @@ class Animation(object):
     for i in rang:
       setattr(self.frames[i], key, val)
 
+  # Also a useful function
   def setall(self, key, val):
     typeassert(key, str)
     for frame in self.frames:
       setattr(frame, key, val)
 
+  # Mirrors the animation in the X direction for stuff
   def mirror_x(self):
     def mirror_vec2(x):
       typeassert(x, Vec2)
@@ -72,6 +76,10 @@ class Animation(object):
       dst.weapon_pos = mirror_vec2(src.weapon_pos)
     return na
 
+  # Loads keyframes from a bunch of files
+  # Keyframes are some images that when put
+  # together make an animation
+  # The keyframes are in the format <name>@<frame>.png
   @staticmethod
   def load_keyframes(path, length, ratio):
     typeassert(path, str)
@@ -85,6 +93,7 @@ class Animation(object):
         ret.frames[index].main_tex = TextureManager.ref().load("{}@{}".format(path, i))
     return ret
 
+  # Loads a single frame as an animation
   @staticmethod
   def load_single(path, length=1):
     typeassert(path, str)

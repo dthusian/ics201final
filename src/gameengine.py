@@ -34,6 +34,7 @@ class GameEngine(object):
   frames: FrameEngine
   ui: UIEngine
   clock: pygame.time.Clock
+  exit: bool
 
   def __init__(self):
     ics_log(LOGLEVEL_INFO, "Initialize Game Engine")
@@ -46,6 +47,7 @@ class GameEngine(object):
     self.ui.menus["help"] = instructionsMenu
     self.clock = pygame.time.Clock()
     ics_log(LOGLEVEL_INFO, "Game Engine finished initialization")
+    self.exit = False
 
   # Runs the main loop of the game
   def mainloop(self):
@@ -55,6 +57,9 @@ class GameEngine(object):
         if ev.type == pygame.NOEVENT:
           break
         self.handle_event(ev)
+      if self.exit:
+        ics_log(LOGLEVEL_INFO, "Game shutdown")
+        break
       self.tick()
       self.draw()
       self.clock.tick(60)
@@ -62,26 +67,38 @@ class GameEngine(object):
   # Handles input events
   def handle_event(self, ev):
     typeassert(ev, pygame.event.EventType)
+    # For Game
     if ev.type == pygame.KEYDOWN:
       mapped = controls_map.get(ev.key)
       if mapped:
         self.physics.press_key(mapped)
         self.frames.press_key(mapped)
+    # For processing UI when game isn't active
     if self.ui.active != "game":
       if ev.type == pygame.MOUSEBUTTONUP:
         self.ui.click(Vec2.from_tuple(ev.pos))
       if ev.type == pygame.MOUSEMOTION:
         self.ui.mousemove(Vec2.from_tuple(ev.pos))
+    # For ending screen
+    if self.game.winner != -1:
+      if ev.type == pygame.MOUSEBUTTONDOWN:
+        self.exit = True
 
   # Draw!
   def draw(self):
-    if self.ui.active == "game":
+    if self.game.winner != -1:
+      # Ending screen
+      _scaled_size = translate_px(Vec2(1920, 1080))
+      _scaled_image = pygame.transform.scale(TextureManager.ref().load("stage/gameend"), (int(_scaled_size.x), int(_scaled_size.y)))
+      self.view.render_target.blit(_scaled_image, (0, 0))
+    elif self.ui.active == "game":
       self.view.draw()
     else:
       self.ui.draw()
 
   # Tick!
   def tick(self):
+    # Just go through all the engines and tick them and stuff
     if self.ui.active != "game": return
     pressed = pygame.key.get_pressed()
     buttons = controls_map.items()
